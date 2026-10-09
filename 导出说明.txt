@@ -1,0 +1,24 @@
+AI 角色聊天：脱敏源码导出
+
+包含后端、前端、程序图标、管理脚本、Swift/Python 工具和测试源码。
+排除 data、logs、历史备份、Git 历史、原项目内部文档；不包含数据库、聊天记录、用户账户、上传文件、语音、角色缓存、凭据或证书。
+个人域名、卷名、NAS 账户和跨项目路径已替换为本地或示例配置；PNG 图标已移除 EXIF、文本和时间元数据，像素内容未变。
+测试中的用户、口令、IP 和聊天文本为测试夹具，不是导出的运行数据库。
+
+运行
+后端使用 Node.js 内置模块，包括 node:sqlite。原项目无 package.json，无 npm 安装步骤；使用支持这些 API 的 Node.js 22 新版本或更新版本。
+将 .env.example 复制为 .env，自行设置 ADMIN_BOOTSTRAP_PASSWORD（至少 8 位）。
+执行：node --env-file=.env server.mjs
+访问：http://localhost:44982
+首次启动创建 admin 账号；模型密钥自行在管理后台配置，或创建 config/ai-keys.env。导出包没有真实密钥。
+运行后生成的 data、.env 和 config 中的凭据不应再随源码分享。
+
+可选功能
+Chub/模型服务、独立抓取控制服务、NAS 镜像及 API、Grok CLI 和额度探针均需自行配置，外部服务源码和数据不在本包内。
+PDF/OCR 使用 macOS Swift/Vision/PDFKit；其他图片与 NAS 功能可能需要额外本机工具。
+TLS 证书自行放入 config/ssl，文件名为 chat.example.com.key 和 chat.example.com_bundle.pem；也可修改 server/net.mjs。
+
+验证
+离线示例：node --test test/prompt.test.mjs test/chat-keyboard.test.mjs test/chat-viewport.test.mjs test/navigation-links.test.mjs
+integration.test.mjs 访问真实 Chub/模型，需要密钥并可能产生模型费用；不要无意运行全量测试。
+源码中“契约”注释引用原内部文档。为避免携带部署记录，原内部文档未导出。
